@@ -20,7 +20,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -53,26 +52,8 @@ class CountryListFragment : Fragment(), LocationListener {
         viewModel = ViewModelProviders.of(this).get(CountriesViewModel::class.java)
         viewModel.onCreate()
         checkSpanCount()
-        viewModel.getCountries()?.observe(this, Observer {
-            if (countriesCountriesAdapter == null && !it.isNullOrEmpty()) {
-                countriesCountriesAdapter = CountriesAdapter(
-                    context!!,
-                    it.toMutableList(),
-                    spanCount
-                ) {
-                    var args: Bundle = Bundle();
-                    args.putSerializable(BundleKeys.COUNTRY, it)
-                    findNavController().navigate(R.id.countryDetailFragment, args)
-                }
-            }
-            recyclerview?.layoutManager =
-                StaggeredGridLayoutManager(spanCount, LinearLayoutManager.VERTICAL)
-            recyclerview?.adapter = countriesCountriesAdapter
-            shimmer_layout.visibility = View.GONE
-            rootLayout.visibility = View.VISIBLE
-        })
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 countriesCountriesAdapter?.filter(query)
                 return true;
@@ -84,7 +65,41 @@ class CountryListFragment : Fragment(), LocationListener {
             }
 
         })
+        getCountries ()
         getLocation()
+    }
+
+    private fun getCountries(isRefreshData: Boolean = false){
+
+        viewModel.getCountries(isRefreshData)?.observe(this, Observer {
+            if(it.isNullOrEmpty() && !CountryApplication.INSTANCE.isNetworkAvailable()){
+                not_network_layout.visibility=View.VISIBLE
+                no_network_btn_retry.setOnClickListener{
+                    if(CountryApplication.INSTANCE.isNetworkAvailable()){
+                        not_network_layout.visibility= View.GONE
+                        getCountries(true)
+                    }
+                }
+            }else {
+                if (!it.isNullOrEmpty()) {
+                    countriesCountriesAdapter = CountriesAdapter(
+                            context!!,
+                            it.toMutableList(),
+                            spanCount
+                    ) {
+                        var args: Bundle = Bundle();
+                        args.putSerializable(BundleKeys.COUNTRY, it)
+                        findNavController().navigate(R.id.countryDetailFragment, args)
+                    }
+                    recyclerview?.layoutManager =
+                            StaggeredGridLayoutManager(spanCount, LinearLayoutManager.VERTICAL)
+                    recyclerview?.adapter = countriesCountriesAdapter
+                    shimmer_layout.visibility = View.GONE
+                    rootLayout.visibility = View.VISIBLE
+                    list_layout.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
 

@@ -5,4 +5,6 @@
     <string name="temperature_format">%1$s&#xb0; %2$s </string>
     <string name="location_dialog_title">Weather Report?</string>
     <string name="location_dialog_detail">For showing you a weather report, needs an access of your current location. Do you want to proceed</string>
+    <string name="not_network_msg">Please check your internet connection</string>
+    <string name="retry">Retry</string>
 </resources>

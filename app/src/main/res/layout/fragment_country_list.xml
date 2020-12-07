@@ -10,7 +10,7 @@
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -88,6 +88,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/list_layout"
+            android:visibility="gone"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -331,6 +333,28 @@
             </com.facebook.shimmer.ShimmerFrameLayout>
 
         </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/not_network_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center"
+        android:background="@color/half_white"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="@string/not_network_msg"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/no_network_btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

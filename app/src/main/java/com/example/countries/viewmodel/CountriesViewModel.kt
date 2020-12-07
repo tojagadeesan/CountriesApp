@@ -18,7 +18,10 @@ class CountriesViewModel : ViewModel() {
             CountriesRepo.getCountries()
         }
     }
-    fun getCountries(): LiveData<List<Country>>? {
+    fun getCountries(refreshData: Boolean = false): LiveData<List<Country>>? {
+        if(refreshData){
+            CountriesRepo.getCountries()
+        }
         return countriesList
     }
     fun getWeather(
