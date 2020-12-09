@@ -10,6 +10,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,6 @@ class CountryListFragment : Fragment(), LocationListener {
     private var countriesCountriesAdapter: CountriesAdapter? = null
     private var spanCount: Int = 2
     private val locationPermissionCode = 2
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -205,13 +205,15 @@ class CountryListFragment : Fragment(), LocationListener {
     }
 
     private fun checkSpanCount() {
+
         spanCount =
             if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) 4 else 2
         recyclerview?.layoutManager =
             StaggeredGridLayoutManager(spanCount, LinearLayoutManager.VERTICAL)
     }
 
-    fun showDialog(){
+    fun showDialog() {
+
         val builder = AlertDialog.Builder(context)
         builder.setTitle(getString(R.string.location_dialog_title))
         builder.setMessage(getString(R.string.location_dialog_detail))
@@ -219,14 +221,25 @@ class CountryListFragment : Fragment(), LocationListener {
         builder.setPositiveButton(android.R.string.yes) { dialog, which ->
 
             requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                locationPermissionCode
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    locationPermissionCode
             )
         }
 
         builder.setNegativeButton(android.R.string.no) { dialog, which ->
         }
         builder.show()
+
     }
 
+}
+
+interface TextString
+
+fun MainActivity.jagString(text: String): String {
+    return text+"jagadeesan"
+}
+
+fun TextString.suffixString(text: String): String {
+    return text+"jagadeesan"
 }

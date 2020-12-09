@@ -78,7 +78,7 @@ class CountriesAdapter(
                         transition: Transition<in Drawable>?
                     ) {
                         val bitmap = resource.toBitmap()
-                        GlobalScope.launch(Dispatchers.Main) {
+                        GlobalScope.launch(Dispatchers.Default) {
                             bitmap.apply {
                                 val savedUri: Uri? = saveToInternalStorage(mContext, name)
                                 holder.itemView.imageView.setImageURI(savedUri)
